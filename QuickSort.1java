@@ -1,0 +1,85 @@
+/*
+Program to implement QuickSort when taking the 1st element or leftmost element in the array as the pivot
+Input: Unsorted Array to Sorted Array
+Outpur: Sorted Array using QuickSort
+
+*/
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class HelloWorld 
+{
+    public static void rSelect(int elements[], int length, int i,int left, int right) // Quicksort method which accepts the array , left index of the array and right index of the array
+    {
+        if(length == 1) // if left is less than right than only do the partitioning because if there is one element then left=right, so no need to sort
+        {
+           System.out.println("The smallest element is:"+elements[length]);
+        }
+		else
+		{
+			int p = partition(elements,left,right);
+			int j=p;
+			if(i == j)
+			{
+				System.out.println("The "+i+"th Smallest element in the array is:"+elements[j]);
+			}
+			if(i < j)
+			{
+				rSelect(elements,j-1,i,left,j-1);
+			}
+			if(i > j)
+			{
+				rSelect(elements,length-j,i-j,j+1,length-j);
+			}
+		}
+    }
+    public static int partition(int elements[], int left, int right)
+    {
+        int pivot=elements[left]; // pivot's value to be the leftmost in the array
+        int i=left+1; // ith pointer points to the right of the pivot position
+        for(int j=left+1;j<=right;j++) // J loops runs from one position right of pivot i.e i or (left+1) to last
+        {
+            if(elements[j] <= pivot) // if element at j is less than pivot means there is one element which is smaller to pivot n is on the right hand side, so need to swap with the ith place which keeps a border between less than pivot n greater than pivot
+            {
+                // Swap a[j] & a[i]
+                int temp = elements[j];
+                elements[j] = elements[i];
+                elements[i]=temp;
+                i++;
+            }
+        }
+            // Swap a[i-1] & a[left] (pivot) // why i-1 because i stores the 1st element greater than pivot, so i-1 has all elements smaller than pivot, so i-1
+            int temp1 = elements[i-1];
+            elements[i-1]=elements[left];
+            elements[left]=temp1;
+            return (i-1); // return pivot index
+    }
+        
+    public static void main(String[] args) 
+    {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the Number of Elements to be Sorted");
+        int nElements = in.nextInt();
+        int elements[] = new int[nElements+1];
+        for(int i=1;i<=nElements;i++)
+        {
+            System.out.println("Enter the "+i+"th Element");
+            elements[i] = in.nextInt();
+        }
+        
+        // Input Array
+        for(int i=1;i<=nElements;i++)
+        {
+            System.out.print(elements[i]+" ");
+        }
+        int l=1;
+        int r=elements.length;
+        System.out.println("\n"+l+" "+r);
+		System.out.println("Enter the ith Smallest number to be searched");
+        int ii = in.nextInt();
+        rSelect(elements,nElements,ii,l,r);
+    }
+}
